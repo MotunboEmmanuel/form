@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./test.css">
+  <style>/* Container Styles */
+   
+   .container form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+.inputBox{
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.inputBox input[type="text"], .inputBox input[type="email"]{
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 0px 10px;
+    font-size: 16px;
+    color: #444;
+}
+
+.inputBox textarea{
+    width: 100%;
+    height: 120px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 0px 10px;
+    font-size: 16px;
+    color: #444;
+}
+
+.inputBox button{
+    width: 100%;    
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background: rgb(0, 119, 255);
+    color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    
+}
+
+.inputBox button:hover{
+    background: rgb(0, 17, 255);
+    transition: all 0.3s ease;
+}
+
+::placeholder{
+    font-size: 16px;
+}
+
+.alert{
+    width: 100%;
+    background: rgb(0, 119, 255);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+    display: none;
+}
+.inputBox{
+    position: relative;
+    margin: 12px 0;
+}
+.inputBox input{
+    padding: 8px 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: #acacac solid 20px;
+    background-color: transparent;
+    color: #eee;
+    transition: 0.15s all ease;
+}
+.inputBox input:focus{
+    border-color: #eee;
+
+}
+.inputBox input:placeholder{
+    color: transparent;
+}
+.inputBox .form-label{
+    position: absolute;
+    top: 9px;
+    left: 0;
+    font-size: 18px;
+    padding: 0 10px;
+    color: #acacac;
+    pointer-events: none;
+    transition: 0.15s all ease;
+
+}
+   
+   body{
+      background-image: url("pic.jpg");
+      background-size: contain;
+      background-repeat:repeat ;
+      background-attachment: fixed;
+    }
+    .container{
+    width: 40%;
+    margin: 0 auto;
+    height: 50%;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow:  0px 5px 25px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    background-image: url("pi2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+}
+
+      
+      /* Form Styles */
+      .form {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+      }
+      
+      .form-group {
+        margin-bottom: 15px;
+      }
+      
+      .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      
+      .form-group input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      
+      .form-group button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+      .form-group button:hover {
+        background-color: #0056b3;
+      }
+      </style>
+  <title>Login</title>
+</head>
+<body>
+ 
+  <div class="container">
+     <h2>Login</h2>
+    <form class="form">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password">
+      </div>
+      <div class="form-group">
+        <button type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+  
+
+  <!-- Firebase Configuration -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+    
+ <script>
+    // Your web app's Firebase configuration
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    
+
+    // Initialize Firebase
+    firebase.initializeApp({
+      apiKey: "AIzaSyAOmgVtpbY_OwU-W679brHwnE2AYPjMlZw",
+      authDomain: "edfan-52d8f.firebaseapp.com",
+      projectId: "edfan-52d8f",
+    } );
+
+    // Get references to the login form elements
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    // Add login form submit event listener
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevent the form from submitting normally
+
+      const email = emailInput.value;
+      const password = passwordInput.value;
+
+      // Sign in with email and password
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("Logged in user:", user);
+          // Redirect to another page or do something else
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error("Login error:", errorMessage);
+        });
+    });
+  </script>
+</body>
+</html>
+
+ 
